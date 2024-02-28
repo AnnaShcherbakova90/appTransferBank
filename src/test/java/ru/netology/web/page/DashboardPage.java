@@ -10,7 +10,7 @@ import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.$$;
 
 public class DashboardPage {
-    private final String balanceStart = "баланс: ";
+    private final String balanceStart = ", баланс: ";
     private final String balanceFinish = " р.";
     private final SelenideElement heading =$("[data-test-id=dashboard]");
     private final ElementsCollection cards =$$(".list__item div");
@@ -20,7 +20,8 @@ public class DashboardPage {
     }
 
     public int getCardBalance(DataHelper.CardInfo cardInfo) {
-        var text = cards.findBy(Condition.text("**** **** **** " + cardInfo.getCardNumber().substring(15))).getText();
+       // var text = cards.findBy(Condition.text("**** **** **** " + cardInfo.getCardNumber().substring(15))).getText();
+        var text = cards.findBy(Condition.text(DataHelper.getMaskedNumber(cardInfo.getCardNumber()))).getText();
         return extractBalance(text);
     }
 
